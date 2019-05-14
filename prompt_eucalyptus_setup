@@ -1,0 +1,123 @@
+#!/bin/zsh
+# repo/eucalyptus/prompt_eucalyptus_setup
+# Copyright (c) 2019 Hiroki Konishi <relastle@gmail.com>
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+# File              : prompt_eucalyptus_setup
+# Author            : Hiroki Konishi <relastle@gmail.com>
+# Date              : 24.04.2019
+# Last Modified Date: 14.05.2019
+# Last Modified By  : Hiroki Konishi <relastle@gmail.com>
+
+
+POWERLINE_SEPARATOR=''
+# POWERLINE_R_SEPARATOR=$'\uE0B2'
+NERD_FONT_GIT=''
+NERD_FONT_HOME=''
+NERD_FONT_DOCKER=''
+# NERD_FONT_VIM=$'\uE7C5'
+# NERD_FONT_TERMINAL=$'\uf120'
+# NERD_FONT_ARROW=$'\ue285'
+#
+
+# TEXT_COLOR_WHITE="255"
+# TEXT_COLOR_BLACK="16"
+# POWERLINE_A_COLOR="19"
+# POWERLINE_B_COLOR="36"
+# POWERLINE_C_COLOR="31"
+
+TEXT_COLOR_WHITE="white"
+TEXT_COLOR_BLACK="black"
+
+POWERLINE_A_COLOR="cyan"
+POWERLINE_B_COLOR="green"
+POWERLINE_C_COLOR="blue"
+
+vi_status='INSERT'
+VI_INSERT_COLOR='yello'
+VI_NORMAL_COLOR='cyan'
+vi_status_color='${VI_INSERT_COLOR}'
+
+chpwd_flag=false
+
+# set STATUS_COLOR: cyan for "insert", green for "normal" mode.
+prompt_eucalyptus_vim_mode() {
+	vi_status="${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
+	vi_status_color="${${KEYMAP/vicmd/${VI_NORMAL_COLOR}}/(main|viins)/${VI_INSERT_COLOR}}"
+    prompt_eucalyptus_render
+    zle reset-prompt
+}
+
+prompt_eucalyptus_precmd () {
+    # echo "chpwd_flag = ${chpwd_flag} @ precmd"
+    [[ $chpwd_flag != true ]] && vcs_info # && echo "get VCS_INFO precmd"
+    prompt_eucalyptus_render
+    chpwd_flag=false
+}
+
+prompt_eucalyptus_preexec () {
+}
+
+prompt_eucalyptus_chpwd () {
+    vcs_info # && echo "get VCS_INFO chpwd"
+    prompt_eucalyptus_render
+    chpwd_flag=true
+}
+
+prompt_eucalyptus_render() {
+    if [ -z "$DOCKER_CONTAINER" ]
+    then
+        POWERLINE_LEFT_A=""
+    else
+        POWERLINE_LEFT_A="%K{${POWERLINE_A_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_DOCKER" "$DOCKER_CONTAINER" %k%f%K{${POWERLINE_B_COLOR}}%F{${POWERLINE_A_COLOR}}"$POWERLINE_SEPARATOR
+    fi
+
+    POWERLINE_LEFT_B="%K{${POWERLINE_B_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_HOME" %c %k%f%K{${POWERLINE_C_COLOR}}%F{${POWERLINE_B_COLOR}}"$POWERLINE_SEPARATOR
+    POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT ${vcs_info_msg_0_} %k%f%{${reset_color}%}%F{${POWERLINE_C_COLOR}}$POWERLINE_SEPARATOR%{${reset_color}%}"
+
+    RPS1="%F{${vi_status_color}}[--${vi_status}--] %F{green}%~%f"
+    PS1=${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C}" "
+}
+
+prompt_eucalyptus_setup() {
+    export KEYTIMEOUT=1
+    autoload -Uz vcs_info
+
+    fmt_staged="%F{red} ●%f"
+    fmt_unstaged="%F{yellow} ●%f"
+    fmt_branch="%F{${TEXT_COLOR_WHITE}}%b%f%u%c%f"
+    fmt_action="%F{red}[%a]%f"
+
+	add-zsh-hook precmd prompt_eucalyptus_precmd
+	add-zsh-hook preexec prompt_eucalyptus_preexec
+	add-zsh-hook chpwd prompt_eucalyptus_chpwd
+
+	zle -N zle-line-init prompt_eucalyptus_vim_mode
+	zle -N zle-keymap-select prompt_eucalyptus_vim_mode
+
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' stagedstr "${fmt_staged}"
+    zstyle ':vcs_info:git:*' unstagedstr "${fmt_unstaged}"
+    zstyle ':vcs_info:*' formats "${fmt_branch}"
+    zstyle ':vcs_info:*' actionformats "${fmt_branch}${fmt_action}"
+
+    prompt_eucalyptus_render
+}
+
+prompt_eucalyptus_setup
