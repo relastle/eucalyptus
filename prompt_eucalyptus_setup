@@ -66,16 +66,19 @@ prompt_eucalyptus_vim_mode() {
 
 prompt_eucalyptus_precmd () {
     # echo "chpwd_flag = ${chpwd_flag} @ precmd"
-    [[ $chpwd_flag != true ]] && vcs_info # && echo "get VCS_INFO precmd"
-    prompt_eucalyptus_render
+    if [[ $chpwd_flag != true ]] then
+        vcs_info #&& echo "get VCS_INFO precmd"
+        prompt_eucalyptus_render
+    fi
     chpwd_flag=false
 }
 
 prompt_eucalyptus_preexec () {
+    chpwd_flag=false
 }
 
 prompt_eucalyptus_chpwd () {
-    vcs_info # && echo "get VCS_INFO chpwd"
+    vcs_info #&& echo "get VCS_INFO chpwd"
     prompt_eucalyptus_render
     chpwd_flag=true
 }
