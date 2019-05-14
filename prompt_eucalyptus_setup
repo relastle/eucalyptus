@@ -96,7 +96,7 @@ prompt_eucalyptus_render() {
 }
 
 prompt_eucalyptus_setup() {
-    export KEYTIMEOUT=1
+    export KEYTIMEOUT=20
     autoload -Uz vcs_info
 
     fmt_staged="%F{red} ●%f"
