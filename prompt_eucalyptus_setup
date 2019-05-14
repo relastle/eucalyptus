@@ -102,8 +102,8 @@ prompt_eucalyptus_setup() {
     export KEYTIMEOUT=20
     autoload -Uz vcs_info
 
-    fmt_staged="%F{red} ●%f"
-    fmt_unstaged="%F{yellow} ●%f"
+    fmt_staged="%F{red} %f"
+    fmt_unstaged="%F{yellow} %f"
     fmt_branch="%F{${TEXT_COLOR_WHITE}}%b%f%u%c%f"
     fmt_action="%F{red}[%a]%f"
 
