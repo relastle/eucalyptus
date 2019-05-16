@@ -52,7 +52,7 @@ POWERLINE_C_COLOR="blue"
 vi_status='INSERT'
 VI_INSERT_COLOR='yello'
 VI_NORMAL_COLOR='cyan'
-vi_status_color='${VI_INSERT_COLOR}'
+vi_status_color="${VI_INSERT_COLOR}"
 
 chpwd_flag=false
 
