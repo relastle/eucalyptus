@@ -11,35 +11,35 @@ O     O   o  o     o   O  o  O   o o   O   o   O   o      O
 ```
 
 
-# eucalyptus
+eucalyptus
 ---
 
 Simple one-line zsh prompt theme for minimalist vim-mode user.
 
 ![](./resources/sample.png)
 
-## Features
+Features
 ---
 
-- Simple git status indicator
+- *Simple git status indicator*
     - Current branch
     - Changes not staged for commit
     - Changes to be committed
-- Vim mode indicator
+- *Vim mode indicator*
     - Insert mode
     - Normal mode
-- Current directory name (left prompt)
-- Current directory path (right prompt)
+- *Current directory name* (left prompt)
+- *Current directory path* (right prompt)
 
-## Requirements
+Requirements
 ---
 
-- zsh (of course)
-- Nerd fonts in your terminal (check [Nerdfonts web site](https://nerdfonts.com))
-- Vi-mode is enabled
+- *zsh* (of course)
+- *Nerd fonts* in your terminal (check [Nerdfonts web site](https://nerdfonts.com))
+- *Vi-mode* is enabled
 
 
-## Installation
+Installation
 ---
 
 ```zsh
@@ -55,3 +55,8 @@ autoload -U promptinit; promptinit
 prompt eucalyptus
 setopt prompt_subst
 ```
+
+Note
+---
+
+- My terminal color scheme is based on [Gotham theme](https://github.com/whatyouhide/gotham-contrib).
