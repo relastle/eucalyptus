@@ -25,22 +25,22 @@ such as [agnoster](https://github.com/agnoster/agnoster-zsh-theme) and
 Features
 ---
 
-- *Simple git status indicator*
+- **Simple git status indicator**
     - Current branch
     - Changes not staged for commit
     - Changes to be committed
-- *Vim mode indicator*
+- **Vim mode indicator**
     - Insert mode
     - Normal mode
-- *Current directory name* (left prompt)
-- *Current directory path* (right prompt)
+- **Current directory name** (left prompt)
+- **Current directory path** (right prompt)
 
 Requirements
 ---
 
-- *zsh* (of course)
-- *Nerd fonts* in your terminal (check [Nerdfonts web site](https://nerdfonts.com))
-- *Vi-mode* is enabled
+- **zsh** (of course)
+- **Nerd fonts** in your terminal (check [Nerdfonts web site](https://nerdfonts.com))
+- **Vi-mode** is enabled
 
 
 Installation
