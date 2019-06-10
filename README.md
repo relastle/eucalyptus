@@ -16,6 +16,10 @@ eucalyptus
 
 Simple one-line zsh prompt theme for minimalist vim-mode user.
 
+This theme is inspired by other themes introducing powerline,
+such as [agnoster](https://github.com/agnoster/agnoster-zsh-theme) and
+[powerlevel9k](https://github.com/bhilburn/powerlevel9k).
+
 ![](./resources/sample.png)
 
 Features
