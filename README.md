@@ -64,3 +64,10 @@ Note
 ---
 
 - My terminal color scheme is based on [Gotham theme](https://github.com/whatyouhide/gotham-contrib).
+
+License
+---
+
+The MIT License (MIT)
+
+Copyright (c) 2019 Hiroki Konishi
