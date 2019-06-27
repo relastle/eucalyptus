@@ -33,6 +33,9 @@ NERD_FONT_DOCKER=''
 TEXT_COLOR_WHITE="white"
 TEXT_COLOR_BLACK="black"
 
+BRANCH_COLOR_MASTER="yello"
+BRANCH_COLOR_NON_MASTER="white"
+
 POWERLINE_A_COLOR="cyan"
 POWERLINE_B_COLOR="green"
 POWERLINE_C_COLOR="blue"
@@ -51,9 +54,22 @@ prompt_eucalyptus_vim_mode() {
     zle reset-prompt
 }
 
+# Set branch color dependent on branch name.
+# if `master`, then color will be yellow
+prompt_eucalyptus_branch_color() {
+    current_branch=$(git branch 2>/dev/null | grep \* | cut -d ' ' -f2)
+    if [[ ${current_branch} = 'master' ]] ; then
+        fmt_branch="%F{${BRANCH_COLOR_MASTER}}%b%f%u%c%f"
+    else
+        fmt_branch="%F{${BRANCH_COLOR_NON_MASTER}}%b%f%u%c%f"
+    fi
+    zstyle ':vcs_info:*' formats "${fmt_branch}"
+}
+
 prompt_eucalyptus_precmd () {
     # echo "chpwd_flag = ${chpwd_flag} @ precmd"
     if [[ $chpwd_flag != true ]] then
+        prompt_eucalyptus_branch_color
         vcs_info #&& echo "get VCS_INFO precmd"
     fi
     chpwd_flag=false
@@ -64,6 +80,7 @@ prompt_eucalyptus_preexec () {
 }
 
 prompt_eucalyptus_chpwd () {
+    prompt_eucalyptus_branch_color
     vcs_info #&& echo "get VCS_INFO chpwd"
     chpwd_flag=true
 }
