@@ -86,6 +86,7 @@ prompt_eucalyptus_chpwd () {
 }
 
 prompt_eucalyptus_render() {
+
     if [ -z "$DOCKER_CONTAINER" ]
     then
         POWERLINE_LEFT_A=""
@@ -93,11 +94,17 @@ prompt_eucalyptus_render() {
         POWERLINE_LEFT_A="%K{${POWERLINE_A_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_DOCKER" "$DOCKER_CONTAINER" %k%f%K{${POWERLINE_B_COLOR}}%F{${POWERLINE_A_COLOR}}"$POWERLINE_SEPARATOR
     fi
 
-    POWERLINE_LEFT_B="%K{${POWERLINE_B_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_HOME" %c %k%f%K{${POWERLINE_C_COLOR}}%F{${POWERLINE_B_COLOR}}"$POWERLINE_SEPARATOR
+    if [[ $(hostname) != ${EUCALYPTUS_WHITE_HOST_NAME} ]] then
+        display_host_name="$(hostname):"
+    else
+        display_host_name=""
+    fi
+
+    POWERLINE_LEFT_B="%K{${POWERLINE_B_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_HOME""${display_host_name}" %c %k%f%K{${POWERLINE_C_COLOR}}%F{${POWERLINE_B_COLOR}}"$POWERLINE_SEPARATOR
     POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT "'${vcs_info_msg_0_}'" %k%f%{${reset_color}%}%F{${POWERLINE_C_COLOR}}$POWERLINE_SEPARATOR%{${reset_color}%}"
 
     RPROMPT="%F{"'${vi_status_color}'"}[--"'${vi_status}'"--] %F{green}%~%f"
-    PROMPT="${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C} %f%k"
+    PROMPT="${POWERLINE_LEFT_TMP}${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C} %f%k"
 }
 
 prompt_eucalyptus_setup() {
