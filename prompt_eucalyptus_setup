@@ -95,7 +95,7 @@ prompt_eucalyptus_render() {
     fi
 
     if [[ $(hostname) != ${EUCALYPTUS_WHITE_HOST_NAME} ]] then
-        display_host_name="$(hostname):"
+        display_host_name=" $(hostname):"
     else
         display_host_name=""
     fi
