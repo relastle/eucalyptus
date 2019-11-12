@@ -36,9 +36,15 @@ TEXT_COLOR_BLACK="black"
 BRANCH_COLOR_MASTER="yello"
 BRANCH_COLOR_NON_MASTER="white"
 
+POWERLINE_SUCCESS_COLOR="green"
+POWERLINE_FAILURE_COLOR="red"
+
+status_color=${POWERLINE_SUCCESS_COLOR}
+
 POWERLINE_A_COLOR="cyan"
-POWERLINE_B_COLOR="green"
+POWERLINE_B_COLOR='${status_color}'
 POWERLINE_C_COLOR="blue"
+
 
 vi_status='INSERT'
 VI_INSERT_COLOR='yello'
@@ -67,6 +73,14 @@ prompt_eucalyptus_branch_color() {
 }
 
 prompt_eucalyptus_precmd () {
+    # change color for status color according to previous cmd exit status
+    local LAST_EXIT_CODE=$?
+    if [[ $LAST_EXIT_CODE -ne 0 ]]; then
+        status_color=${POWERLINE_FAILURE_COLOR}
+    else;
+        status_color=${POWERLINE_SUCCESS_COLOR}
+    fi
+
     # echo "chpwd_flag = ${chpwd_flag} @ precmd"
     if [[ $chpwd_flag != true ]] then
         prompt_eucalyptus_branch_color
@@ -100,7 +114,10 @@ prompt_eucalyptus_render() {
         display_host_name=""
     fi
 
+    # for current directory name (and host name if sshed)
     POWERLINE_LEFT_B="%K{${POWERLINE_B_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_HOME""${display_host_name}" %c %k%f%K{${POWERLINE_C_COLOR}}%F{${POWERLINE_B_COLOR}}"$POWERLINE_SEPARATOR
+
+    # for git branch and status
     POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT "'${vcs_info_msg_0_}'" %k%f%{${reset_color}%}%F{${POWERLINE_C_COLOR}}$POWERLINE_SEPARATOR%{${reset_color}%}"
 
     RPROMPT="%F{"'${vi_status_color}'"}[--"'${vi_status}'"--] %F{green}%~%f"
