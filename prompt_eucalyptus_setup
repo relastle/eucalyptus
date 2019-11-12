@@ -42,7 +42,7 @@ POWERLINE_FAILURE_COLOR="red"
 status_color=${POWERLINE_SUCCESS_COLOR}
 
 POWERLINE_A_COLOR="cyan"
-POWERLINE_B_COLOR='${status_color}'
+POWERLINE_B_COLOR='green'
 POWERLINE_C_COLOR="blue"
 
 
@@ -118,10 +118,12 @@ prompt_eucalyptus_render() {
     POWERLINE_LEFT_B="%K{${POWERLINE_B_COLOR}}%F{${TEXT_COLOR_BLACK}} "$NERD_FONT_HOME""${display_host_name}" %c %k%f%K{${POWERLINE_C_COLOR}}%F{${POWERLINE_B_COLOR}}"$POWERLINE_SEPARATOR
 
     # for git branch and status
-    POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT "'${vcs_info_msg_0_}'" %k%f%{${reset_color}%}%F{${POWERLINE_C_COLOR}}$POWERLINE_SEPARATOR%{${reset_color}%}"
+    POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT "'${vcs_info_msg_0_}'" %k%f%K{"'${status_color}'"%}%F{${POWERLINE_C_COLOR}}"$POWERLINE_SEPARATOR
+
+    POWERLINE_LEFT_D="%k%f%{${reset_color}%}%F{"'${status_color}'"}$POWERLINE_SEPARATOR%{${reset_color}%}"
 
     RPROMPT="%F{"'${vi_status_color}'"}[--"'${vi_status}'"--] %F{green}%~%f"
-    PROMPT="${POWERLINE_LEFT_TMP}${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C} %f%k"
+    PROMPT="${POWERLINE_LEFT_TMP}${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C}${POWERLINE_LEFT_D} %f%k"
 }
 
 prompt_eucalyptus_setup() {
