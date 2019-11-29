@@ -36,14 +36,15 @@ TEXT_COLOR_BLACK="black"
 BRANCH_COLOR_MASTER="yello"
 BRANCH_COLOR_NON_MASTER="white"
 
-POWERLINE_SUCCESS_COLOR="green"
-POWERLINE_FAILURE_COLOR="red"
+POWERLINE_SUCCESS_COLOR="2" # normal green
+POWERLINE_FAILURE_COLOR="3" # normal yellow
 
 status_color=${POWERLINE_SUCCESS_COLOR}
+last_exit_code=''
 
-POWERLINE_A_COLOR="cyan"
-POWERLINE_B_COLOR='green'
-POWERLINE_C_COLOR="blue"
+POWERLINE_A_COLOR="6" # normal cyan
+POWERLINE_B_COLOR='12' # bright blue
+POWERLINE_C_COLOR="4" # normal blue
 
 
 vi_status='INSERT'
@@ -76,8 +77,10 @@ prompt_eucalyptus_precmd () {
     # change color for status color according to previous cmd exit status
     local LAST_EXIT_CODE=$?
     if [[ $LAST_EXIT_CODE -ne 0 ]]; then
+        last_exit_code=${LAST_EXIT_CODE}
         status_color=${POWERLINE_FAILURE_COLOR}
     else;
+        last_exit_code=''
         status_color=${POWERLINE_SUCCESS_COLOR}
     fi
 
@@ -120,7 +123,7 @@ prompt_eucalyptus_render() {
     # for git branch and status
     POWERLINE_LEFT_C="%k%f%K{${POWERLINE_C_COLOR}}%F{${TEXT_COLOR_WHITE}} $NERD_FONT_GIT "'${vcs_info_msg_0_}'" %k%f%K{"'${status_color}'"%}%F{${POWERLINE_C_COLOR}}"$POWERLINE_SEPARATOR
 
-    POWERLINE_LEFT_D="%k%f%{${reset_color}%}%F{"'${status_color}'"}$POWERLINE_SEPARATOR%{${reset_color}%}"
+    POWERLINE_LEFT_D="%F{${TEXT_COLOR_BLACK}}"'${last_exit_code}'"%k%f%{${reset_color}%}%F{"'${status_color}'"}""${POWERLINE_SEPARATOR}%{${reset_color}%}"
 
     RPROMPT="%F{"'${vi_status_color}'"}[--"'${vi_status}'"--] %F{green}%~%f"
     PROMPT="${POWERLINE_LEFT_TMP}${POWERLINE_LEFT_A}${POWERLINE_LEFT_B}${POWERLINE_LEFT_C}${POWERLINE_LEFT_D} %f%k"
