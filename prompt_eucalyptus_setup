@@ -37,7 +37,7 @@ BRANCH_COLOR_MASTER="yello"
 BRANCH_COLOR_NON_MASTER="white"
 
 POWERLINE_SUCCESS_COLOR="2" # normal green
-POWERLINE_FAILURE_COLOR="3" # normal yellow
+POWERLINE_FAILURE_COLOR="9" # bright red
 
 status_color=${POWERLINE_SUCCESS_COLOR}
 last_exit_code=''
@@ -77,7 +77,8 @@ prompt_eucalyptus_precmd () {
     # change color for status color according to previous cmd exit status
     local LAST_EXIT_CODE=$?
     if [[ $LAST_EXIT_CODE -ne 0 ]]; then
-        last_exit_code=${LAST_EXIT_CODE}
+        # last_exit_code=${LAST_EXIT_CODE}
+        last_exit_code=''
         status_color=${POWERLINE_FAILURE_COLOR}
     else;
         last_exit_code=''
