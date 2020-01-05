@@ -42,6 +42,9 @@ POWERLINE_FAILURE_COLOR="9" # bright red
 status_color=${POWERLINE_SUCCESS_COLOR}
 last_exit_code=''
 
+POWERLINE_B_COLOR_SAFE='12'
+POWERLINE_B_COLOR_DANGER='9'
+
 POWERLINE_A_COLOR="6" # normal cyan
 POWERLINE_B_COLOR='12' # bright blue
 POWERLINE_C_COLOR="4" # normal blue
@@ -116,6 +119,12 @@ prompt_eucalyptus_render() {
         display_host_name=" $(hostname):"
     else
         display_host_name=""
+    fi
+
+    if [[ ${EUCALYPTUS_HOST_NAME_DANGER} != "" && $(hostname) =~ "${EUCALYPTUS_HOST_NAME_DANGER}" ]] then
+        POWERLINE_B_COLOR=${POWERLINE_B_COLOR_DANGER}
+    else
+        POWERLINE_B_COLOR=${POWERLINE_B_COLOR_SAFE}
     fi
 
     # for current directory name (and host name if sshed)
